@@ -2,6 +2,21 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { colors, fonts, fontSizes } from '../styles/variables';
 
+// Tipagem das props para o GenericModal
+interface GenericModalProps {
+  title: string;
+  placeholder: string;
+  onClose: () => void;
+  onSubmit: (value: string) => void;
+  buttonText: string;
+  defaultValue?: string; // defaultValue é opcional
+}
+
+// Tipagem para o botão, considerando a prop 'primary'
+interface ButtonProps {
+  primary?: boolean; // Prop opcional para o botão
+}
+
 // Backdrop para cobrir a tela e detectar cliques fora do modal
 const Backdrop = styled.div`
   position: fixed;
@@ -17,8 +32,8 @@ const Backdrop = styled.div`
 const ModalWrapper = styled.div`
   background-color: ${colors.background};
   border-radius: 12px;
-  padding: 24px 24px;  /* Mantendo espaçamento correto */
-  width: 400px; /* Card com largura maior para acomodar o conteúdo */
+  padding: 24px 24px;
+  width: 400px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   position: fixed;
   top: 50%;
@@ -43,7 +58,7 @@ const ModalTitle = styled.h3`
 
 // Input ajustado para ficar alinhado com os botões
 const Input = styled.input`
-  width: calc(100% - 40px);  /* Alinhado perfeitamente com os botões */
+  width: calc(100% - 40px);
   padding: 12px;
   margin-bottom: 24px;
   border: 1px solid #3a3a3a;
@@ -59,7 +74,7 @@ const Input = styled.input`
   }
 
   &:focus {
-    border-color: ${colors.primary}; /* Cor de destaque ao focar */
+    border-color: ${colors.primary};
   }
 `;
 
@@ -67,11 +82,11 @@ const Input = styled.input`
 const ButtonContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  width: 100%; /* Largura total para alinhar com o input */
+  width: 100%;
 `;
 
 // Botões com padding adequado e alinhados com o input
-const Button = styled.button`
+const Button = styled.button<ButtonProps>`
   padding: 12px 16px;
   border: none;
   border-radius: 6px;
@@ -79,22 +94,30 @@ const Button = styled.button`
   font-family: ${fonts.primary};
   font-size: ${fontSizes.medium};
   font-weight: 500;
-  background-color: ${props => props.primary ? colors.primary : '#2C2C2C'};
+  background-color: ${(props) => (props.primary ? colors.primary : '#2C2C2C')};
   color: ${colors.textWhite};
   flex: 1;
-  margin: 0 8px; /* Espaço entre os botões */
+  margin: 0 8px;
 
   &:hover {
-    background-color: ${props => props.primary ? colors.buttonHover : '#3A3A3A'};
+    background-color: ${(props) => (props.primary ? colors.buttonHover : '#3A3A3A')};
   }
 `;
 
-const GenericModal = ({ title, placeholder, onClose, onSubmit, buttonText, defaultValue }) => {
-  const [inputValue, setInputValue] = useState(defaultValue || ''); // Estado do valor do input
+// Componente GenericModal com tipagem adequada
+const GenericModal: React.FC<GenericModalProps> = ({
+  title,
+  placeholder,
+  onClose,
+  onSubmit,
+  buttonText,
+  defaultValue = '',
+}) => {
+  const [inputValue, setInputValue] = useState<string>(defaultValue); // Tipagem explícita de string para o estado
 
   const handleSubmit = () => {
     if (inputValue.trim()) {
-      onSubmit(inputValue); // Chama a função de callback com o valor
+      onSubmit(inputValue);
       onClose(); // Fecha o modal
     }
   };

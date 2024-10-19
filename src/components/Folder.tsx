@@ -1,22 +1,27 @@
 import React from 'react';
 import styled from 'styled-components';
 import { FiMoreVertical } from 'react-icons/fi';
-import { ReactComponent as FolderSvgIcon } from '../assets/ic-folder.svg'; // Importa o SVG como componente
+import { ReactComponent as FolderSvgIcon } from '../assets/ic-folder.js';
+
+// Tipagem das props do componente Folder
+interface FolderProps {
+  folderName: string; // Nome da pasta deve ser uma string
+}
 
 // Wrapper para o container da pasta
 const FolderWrapper = styled.div`
   display: flex;
   align-items: center;
-  background-color: #1E2022; /* Cor de fundo escura */
-  border-radius: 12px; /* Borda arredondada */
+  background-color: #1E2022;
+  border-radius: 12px;
   padding: 10px 16px;
-  width: 260px; /* Largura fixa para as pastas */
+  width: 260px;
   height: 42px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 
   &:hover {
-    background-color: #292D2E; /* Cor de fundo ao passar o mouse */
+    background-color: #292D2E;
   }
 `;
 
@@ -25,7 +30,7 @@ const FolderIcon = styled(FolderSvgIcon)`
   width: 20px;
   height: 20px;
   margin-right: 12px;
-  fill: #bdbdbd; /* Cor de preenchimento para o SVG */
+  fill: #bdbdbd;
 `;
 
 // Nome da pasta com elipsização para textos longos
@@ -34,9 +39,8 @@ const FolderName = styled.span`
   font-weight: 500;
   font-size: 13px;
   color: #D4D1CB;
-  flex-grow: 1; /* Faz o nome da pasta ocupar o espaço restante */
+  flex-grow: 1;
   
-  /* Propriedades para truncar o texto com reticências */
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -44,18 +48,16 @@ const FolderName = styled.span`
 
 // Ícone de três pontos para o menu de opções
 const OptionsIcon = styled(FiMoreVertical)`
-  color: #bdbdbd; /* Cor do ícone de opções */
+  color: #bdbdbd;
   font-size: 20px;
 `;
 
-const Folder = ({ folderName }) => {
+// Componente Folder com tipagem correta
+const Folder: React.FC<FolderProps> = ({ folderName }) => {
   return (
     <FolderWrapper>
-      {/* Ícone de pasta usando SVG personalizado */}
       <FolderIcon />
-      {/* Nome da pasta */}
       <FolderName>{folderName}</FolderName>
-      {/* Ícone de três pontos */}
       <OptionsIcon />
     </FolderWrapper>
   );

@@ -1,5 +1,5 @@
 // src/data/repositories/userRepository.js
-import { addUser, getUsers, getLastLoggedUser, saveLastLoggedUser, deleteUser } from '../../data/db';
+import { addUser, getUsers, getLastLoggedUser, saveLastLoggedUser, deleteUser } from '../db';
 
 export const createUser = async (user) => {
   return addUser(user);

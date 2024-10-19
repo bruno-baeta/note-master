@@ -1,5 +1,5 @@
 // src/data/repositories/folderRepository.js
-import { addFolder, getFolders, getFoldersByUserId, deleteFolder } from '../../data/db';
+import { addFolder, getFolders, getFoldersByUserId, deleteFolder } from '../db';
 
 export const createFolder = async (folder) => {
   return addFolder(folder);

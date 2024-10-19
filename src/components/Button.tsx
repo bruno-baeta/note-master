@@ -2,6 +2,14 @@ import React from 'react';
 import styled from 'styled-components';
 import { colors, fonts, fontSizes } from '../styles/variables';
 
+// Tipagem das props para o componente Button
+interface ButtonProps {
+  icon?: React.ElementType; // Icon será um componente React opcional
+  label: string; // Label é uma string obrigatória
+  onClick: () => void; // onClick é uma função que não retorna nada (void)
+}
+
+// Estilos para o botão usando styled-components
 const ButtonWrapper = styled.button`
   background: ${colors.buttonBackground};
   color: ${colors.textWhite};
@@ -29,13 +37,13 @@ const ButtonWrapper = styled.button`
   }
 `;
 
-const Button = ({ icon: Icon, label, onClick }) => {
+const Button: React.FC<ButtonProps> = ({ icon: Icon, label, onClick }) => {
   return (
     <ButtonWrapper onClick={onClick}>
-      {Icon && <Icon />}
+      {Icon && <Icon />} {/* Se Icon for passado, renderiza o ícone */}
       {label}
     </ButtonWrapper>
   );
-}
+};
 
 export default Button;

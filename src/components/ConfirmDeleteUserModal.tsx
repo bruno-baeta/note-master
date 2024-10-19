@@ -2,6 +2,17 @@ import React from 'react';
 import styled from 'styled-components';
 import { colors, fonts, fontSizes } from '../styles/variables';
 
+// Definindo a interface das props do modal
+interface ConfirmDeleteUserModalProps {
+  onConfirm: () => void; // Função que será chamada ao confirmar
+  onClose: () => void;   // Função que será chamada ao fechar/cancelar
+}
+
+// Tipando a prop 'confirm' usada no botão
+interface ButtonProps {
+  confirm?: boolean; // 'confirm' é uma prop opcional e do tipo boolean
+}
+
 // Backdrop que cobre a tela ao abrir o modal
 const Backdrop = styled.div`
   position: fixed;
@@ -52,7 +63,7 @@ const ButtonContainer = styled.div`
 `;
 
 // Estilo para os botões
-const Button = styled.button`
+const Button = styled.button<ButtonProps>`
   padding: 12px 24px;
   font-family: ${fonts.primary};
   font-size: ${fontSizes.medium};
@@ -60,14 +71,15 @@ const Button = styled.button`
   border-radius: 6px;
   cursor: pointer;
   color: ${colors.textWhite};
-  background-color: ${props => (props.confirm ? colors.primary : '#2C2C2C')};
+  background-color: ${(props) => (props.confirm ? colors.primary : '#2C2C2C')};
 
   &:hover {
-    background-color: ${props => (props.confirm ? colors.buttonHover : '#3A3A3A')};
+    background-color: ${(props) => (props.confirm ? colors.buttonHover : '#3A3A3A')};
   }
 `;
 
-const ConfirmDeleteUserModal = ({ onConfirm, onClose }) => {
+// Componente ConfirmDeleteUserModal com tipagem correta
+const ConfirmDeleteUserModal: React.FC<ConfirmDeleteUserModalProps> = ({ onConfirm, onClose }) => {
   return (
     <>
       <Backdrop />
