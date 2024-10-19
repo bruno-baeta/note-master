@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../components/Header';
-import Modal from '../components/Modal'; // O modal que exibe opções
-import GenericModal from '../components/GenericModal'; // O modal genérico para ações diversas
+import Modal from '../components/Modal';
+import GenericModal from '../components/GenericModal';
 import UserModal from '../components/UserModal';
+import UserSelectionModal from '../components/UserSelectionModal';
+import ConfirmDeleteUserModal from '../components/ConfirmDeleteUserModal';
 import Folder from '../components/Folder';
-import { fetchLastLoggedUser, createUser } from '../data/repositories/userRepository';
+import { fetchLastLoggedUser, fetchUsers, createUser, removeUser, saveLoggedUser } from '../data/repositories/userRepository';
 import { createFolder, fetchFoldersByUserId } from '../data/repositories/folderRepository';
 import styled from 'styled-components';
 
@@ -26,37 +28,59 @@ const Title = styled.h2`
 `;
 
 const Home = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false); // Modal de opções (Novo)
-  const [isUserModalOpen, setIsUserModalOpen] = useState(false); // Modal para usuário
-  const [isGenericModalOpen, setIsGenericModalOpen] = useState(false); // Modal para ações genéricas
-  const [modalConfig, setModalConfig] = useState({}); // Configurações dinâmicas do modal genérico
-  const [folders, setFolders] = useState([]); // Pastas do usuário
-  const [currentUser, setCurrentUser] = useState(null); // Usuário atual
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isUserModalOpen, setIsUserModalOpen] = useState(false);
+  const [isGenericModalOpen, setIsGenericModalOpen] = useState(false);
+  const [isUserSelectionModalOpen, setIsUserSelectionModalOpen] = useState(false);
+  const [isConfirmDeleteModalOpen, setIsConfirmDeleteModalOpen] = useState(false);
+  const [modalConfig, setModalConfig] = useState({});
+  const [folders, setFolders] = useState([]);
+  const [currentUser, setCurrentUser] = useState(null);
+  const [users, setUsers] = useState([]);
 
-  // Função para carregar o último usuário logado e suas pastas
+  // Cria o usuário 'Desconhecido' se não houver usuários no banco
+  const createUnknownUser = async () => {
+    const unknownUser = { id: Date.now(), name: 'Desconhecido' };
+    await createUser(unknownUser);
+    await saveLoggedUser(unknownUser); // Salva 'Desconhecido' como último usuário
+    setCurrentUser(unknownUser);
+    setFolders([]);
+  };
+
+  // Carrega o último usuário logado, ou cria o usuário 'Desconhecido' se não houver usuários
   const loadLastLoggedUser = async () => {
-    const lastUser = await fetchLastLoggedUser();
-    if (lastUser) {
-      setCurrentUser(lastUser);
-      const userFolders = await fetchFoldersByUserId(lastUser.id); // Carrega as pastas do usuário
-      setFolders(userFolders); // Atualiza as pastas do usuário
+    const userList = await fetchUsers(); // Carrega todos os usuários do banco
+    if (userList.length === 0) {
+      await createUnknownUser(); // Se não houver usuários, cria o 'Desconhecido'
     } else {
-      setCurrentUser(null);
-      setFolders([]);
+      const lastUser = await fetchLastLoggedUser(); // Tenta buscar o último usuário logado
+      if (lastUser) {
+        setCurrentUser(lastUser); // Se encontrar, define como usuário atual
+        const userFolders = await fetchFoldersByUserId(lastUser.id); // Carrega pastas do usuário
+        setFolders(userFolders);
+      } else {
+        setCurrentUser(userList[0]); // Se não encontrar, define o primeiro usuário da lista como o atual
+        const userFolders = await fetchFoldersByUserId(userList[0].id);
+        setFolders(userFolders);
+        await saveLoggedUser(userList[0]); // Salva o primeiro usuário como o último logado
+      }
     }
   };
 
-  // Executa ao montar o componente
+  const loadUsers = async () => {
+    const userList = await fetchUsers();
+    setUsers(userList);
+  };
+
   useEffect(() => {
     loadLastLoggedUser();
+    loadUsers(); // Carregar a lista de usuários ao iniciar
   }, []);
 
-  // Abre o modal de opções (Novo)
   const handleNewClick = () => {
     setIsModalOpen(true);
   };
 
-  // Abre o modal de criação de pasta
   const handleNewFolderClick = () => {
     setModalConfig({
       title: 'Nova Pasta',
@@ -65,22 +89,21 @@ const Home = () => {
       onSubmit: handleCreateFolder,
     });
     setIsGenericModalOpen(true);
-    setIsModalOpen(false); // Fecha o modal de opções
+    setIsModalOpen(false);
   };
 
-  // Abre o modal de alterar o nome do usuário
   const handleChangeUserNameClick = () => {
     setModalConfig({
       title: 'Alterar Nome',
       placeholder: 'Digite o novo nome',
       buttonText: 'Salvar',
       onSubmit: handleChangeUserName,
-      defaultValue: currentUser?.name || '' // Nome do usuário atual
+      defaultValue: currentUser?.name || ''
     });
+    setIsModalOpen(false);
     setIsGenericModalOpen(true);
   };
 
-  // Abre o modal para criar novo usuário
   const handleCreateNewUserClick = () => {
     setModalConfig({
       title: 'Criar Novo Usuário',
@@ -88,37 +111,65 @@ const Home = () => {
       buttonText: 'Criar',
       onSubmit: handleCreateNewUser
     });
+    setIsModalOpen(false);
     setIsGenericModalOpen(true);
   };
 
-  // Cria uma nova pasta associada ao usuário atual
   const handleCreateFolder = async (folderName) => {
-    const newFolder = { id: Date.now(), name: folderName, userId: currentUser.id }; // Associando pasta ao usuário atual
+    const newFolder = { id: Date.now(), name: folderName, userId: currentUser.id };
     await createFolder(newFolder);
-    setFolders([...folders, newFolder]); // Adiciona a nova pasta à lista
-    setIsGenericModalOpen(false); // Fecha o modal genérico
-  };
-
-  // Função para alterar o nome do usuário
-  const handleChangeUserName = (newName) => {
-    setCurrentUser((prevUser) => ({ ...prevUser, name: newName }));
+    setFolders([...folders, newFolder]);
     setIsGenericModalOpen(false);
   };
 
-  // Função para criar novo usuário
+  const handleChangeUserName = (newName) => {
+    setCurrentUser((prevUser) => ({ ...prevUser, name: newName }));
+    saveLoggedUser({ ...currentUser, name: newName }); // Atualiza o último usuário logado
+    setIsModalOpen(false);
+    setIsGenericModalOpen(false);
+  };
+
   const handleCreateNewUser = async (userName) => {
     const newUser = { id: Date.now(), name: userName };
     await createUser(newUser);
     setCurrentUser(newUser);
+    await saveLoggedUser(newUser); // Salva o novo usuário como o último logado
     setFolders([]); // Resetar pastas ao criar novo usuário
+    await loadUsers(); // Recarrega a lista de usuários após criar um novo
+    setIsModalOpen(false);
     setIsGenericModalOpen(false);
+  };
+
+  const handleSelectUser = async (user) => {
+    setCurrentUser(user);
+    await saveLoggedUser(user); // Salva o usuário selecionado como o último logado
+    const userFolders = await fetchFoldersByUserId(user.id);
+    setFolders(userFolders);
+    setIsModalOpen(false);
+    setIsUserSelectionModalOpen(false);
+  };
+
+  // Função para abrir o modal de confirmação de exclusão
+  const handleDeleteUser = () => {
+    setIsConfirmDeleteModalOpen(true); // Abre o modal de confirmação de exclusão
+    setIsUserModalOpen(false); // Fecha o modal de opções de usuário
+  };
+
+  // Função para confirmar a exclusão do usuário
+  const confirmDeleteUser = async () => {
+    if (currentUser) {
+      await removeUser(currentUser.id);
+      await loadUsers(); // Recarrega a lista de usuários
+      await createUnknownUser(); // Define o usuário padrão "Desconhecido" após apagar o usuário
+      setIsConfirmDeleteModalOpen(false); // Fecha o modal de confirmação
+    }
   };
 
   return (
     <div>
-      <Header 
+      <Header
         title="NoteMaster"
-        userInitial={currentUser ? currentUser.name.charAt(0).toUpperCase() : '?'} // Exibe a primeira letra ou ?
+        userInitial={currentUser ? currentUser.name.charAt(0).toUpperCase() : '?'}
         onNewClick={handleNewClick}
         onUserClick={() => setIsUserModalOpen(true)}
       />
@@ -130,26 +181,25 @@ const Home = () => {
         ))}
       </FolderContainer>
 
-      {/* Modal para as opções (Novo) */}
       {isModalOpen && (
-        <Modal 
+        <Modal
           onClose={() => setIsModalOpen(false)}
-          onNewFolderClick={handleNewFolderClick} // Ação ao clicar em "Nova Pasta"
+          onNewFolderClick={handleNewFolderClick}
         />
       )}
 
-      {/* Modal para as opções do usuário */}
       {isUserModalOpen && (
-        <UserModal 
-          userInitial={currentUser ? currentUser.name.charAt(0).toUpperCase() : '?'} 
+        <UserModal
+          userInitial={currentUser ? currentUser.name.charAt(0).toUpperCase() : '?'}
           userName={currentUser ? currentUser.name : 'Desconhecido'}
           onClose={() => setIsUserModalOpen(false)}
-          onChangeUserNameClick={handleChangeUserNameClick} // Abre o modal para alterar nome
-          onCreateNewUserClick={handleCreateNewUserClick} // Abre o modal para criar novo usuário
+          onChangeUserNameClick={handleChangeUserNameClick}
+          onCreateNewUserClick={handleCreateNewUserClick}
+          onSwitchUserClick={() => setIsUserSelectionModalOpen(true)}
+          onDeleteUserClick={handleDeleteUser}
         />
       )}
 
-      {/* Modal Genérico para criar pastas, alterar nome ou criar novo usuário */}
       {isGenericModalOpen && (
         <GenericModal
           title={modalConfig.title}
@@ -158,6 +208,23 @@ const Home = () => {
           defaultValue={modalConfig.defaultValue}
           onSubmit={modalConfig.onSubmit}
           onClose={() => setIsGenericModalOpen(false)}
+        />
+      )}
+
+      {/* Modal de confirmação para apagar o usuário */}
+      {isConfirmDeleteModalOpen && (
+        <ConfirmDeleteUserModal
+          onConfirm={confirmDeleteUser}
+          onClose={() => setIsConfirmDeleteModalOpen(false)} // Fechar modal sem apagar
+        />
+      )}
+
+      {/* Modal de seleção de usuário */}
+      {isUserSelectionModalOpen && (
+        <UserSelectionModal
+          users={users} // Passa a lista de usuários para o modal
+          onSelectUser={handleSelectUser} // Função ao clicar em um usuário
+          onClose={() => setIsUserSelectionModalOpen(false)} // Fechar modal
         />
       )}
     </div>

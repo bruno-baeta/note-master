@@ -101,7 +101,7 @@ const GenericModal = ({ title, placeholder, onClose, onSubmit, buttonText, defau
 
   return (
     <>
-      <Backdrop onClick={onClose} />
+      <Backdrop />
       <ModalWrapper>
         <ModalTitle>{title}</ModalTitle>
         <Input

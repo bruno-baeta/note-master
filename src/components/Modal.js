@@ -56,7 +56,6 @@ const Divider = styled.hr`
 const Modal = ({ onClose, onNewFolderClick }) => {
   return (
     <>
-      {/* Backdrop para fechar o modal ao clicar fora */}
       <Backdrop onClick={onClose} />
 
       {/* Modal para exibir as opções */}

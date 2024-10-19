@@ -8,7 +8,7 @@ const Backdrop = styled.div`
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5); /* Fundo semi-transparente */
+  background-color: rgba(0, 0, 0, 0.5);
   z-index: 999;
 `;
 
@@ -19,24 +19,24 @@ const ModalWrapper = styled.div`
   width: 240px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   position: fixed;
-  top: 8%; /* Espaço do topo */
-  right: 1.6%; /* Espaço da direita */
+  top: 8%;
+  right: 1.6%;
   z-index: 1000;
-  text-align: center; /* Centraliza o círculo e o nome */
+  text-align: center;
 `;
 
 const UserCircle = styled.div`
   width: 60px;
   height: 60px;
-  background-color: ${colors.primary}; /* Cor azul */
+  background-color: ${colors.primary};
   color: ${colors.textWhite};
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: ${fontSizes.large}; /* Tamanho da fonte dentro do círculo */
+  font-size: ${fontSizes.large};
   font-weight: 700;
-  margin: 0 auto; /* Centraliza o círculo */
+  margin: 0 auto;
 `;
 
 const UserName = styled.p`
@@ -44,14 +44,14 @@ const UserName = styled.p`
   font-size: ${fontSizes.medium};
   font-weight: 500;
   color: ${colors.textWhite};
-  margin: 15px 0; /* Espaço entre o nome e o círculo */
-  text-align: center; /* Nome centralizado */
+  margin: 15px 0;
+  text-align: center;
 `;
 
 const OptionList = styled.ul`
   list-style-type: none;
   padding: 0;
-  margin: 28px 0px 0px 0px;
+  margin: 28px 0 0;
 `;
 
 const OptionItem = styled.li`
@@ -63,8 +63,8 @@ const OptionItem = styled.li`
   cursor: pointer;
   border-radius: 6px;
   transition: background-color 0.3s ease, transform 0.2s ease;
-  text-align: left; /* Alinha o texto à esquerda */
-  
+  text-align: left;
+
   &:hover {
     background-color: ${colors.buttonHover};
     transform: scale(1.02);
@@ -76,36 +76,44 @@ const Divider = styled.hr`
   margin: 8px 0;
 `;
 
-const UserModal = ({ userInitial, userName, onClose, onChangeUserNameClick, onCreateNewUserClick }) => {
+const UserModal = ({ 
+  userInitial, 
+  userName, 
+  onClose, 
+  onChangeUserNameClick, 
+  onCreateNewUserClick,
+  onSwitchUserClick,
+  onDeleteUserClick
+}) => {
+  const handleOptionClick = (action) => {
+    action();   // Executa a função de ação
+    onClose();  // Fecha o modal imediatamente após
+  };
+
   return (
     <>
-      {/* Backdrop para fechar o modal ao clicar fora */}
       <Backdrop onClick={onClose} />
 
-      {/* Modal propriamente dito */}
       <ModalWrapper>
-        {/* Círculo com a inicial */}
         <UserCircle>{userInitial}</UserCircle>
 
-        {/* Nome do usuário */}
         <UserName>{userName}</UserName>
 
-        {/* Opções */}
         <OptionList>
-          <OptionItem onClick={onChangeUserNameClick}>
+          <OptionItem onClick={() => handleOptionClick(onChangeUserNameClick)}>
             Alterar nome
           </OptionItem>
           <Divider />
-          <OptionItem onClick={onCreateNewUserClick}>
+          <OptionItem onClick={() => handleOptionClick(onCreateNewUserClick)}>
             Criar novo usuário
           </OptionItem>
           <Divider />
-          <OptionItem>
-            Apagar usuário
+          <OptionItem onClick={() => handleOptionClick(onSwitchUserClick)}>
+            Trocar usuário
           </OptionItem>
           <Divider />
-          <OptionItem>
-            Trocar usuário
+          <OptionItem onClick={() => handleOptionClick(onDeleteUserClick)}>
+            Apagar usuário
           </OptionItem>
         </OptionList>
       </ModalWrapper>

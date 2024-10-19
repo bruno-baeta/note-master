@@ -11,7 +11,7 @@ const AvatarWrapper = styled.div`
   align-items: center;
   border-radius: 50%;
   font-size: 22px;
-  font-weight: 400;
+  font-weight: 600;
   cursor: pointer;
 `;
 
