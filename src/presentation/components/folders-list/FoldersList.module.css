@@ -1,0 +1,16 @@
+.folderContainer {
+    padding: 0 40px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 20px;
+}
+
+.title {
+    padding: 20px 0 0 40px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    color: #D4D1CB;
+    margin-top: 44px;
+}

@@ -1,0 +1,38 @@
+.folderWrapper {
+    display: flex;
+    align-items: center;
+    background-color: #1E2022;
+    border-radius: 12px;
+    padding: 10px 16px;
+    width: 260px;
+    height: 42px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.folderWrapper:hover {
+    background-color: #292D2E;
+}
+
+.folderIcon {
+    width: 20px;
+    height: 20px;
+    margin-right: 12px;
+    fill: #bdbdbd;
+}
+
+.folderName {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 13px;
+    color: #D4D1CB;
+    flex-grow: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.optionsIcon {
+    color: #bdbdbd;
+    font-size: 20px;
+}

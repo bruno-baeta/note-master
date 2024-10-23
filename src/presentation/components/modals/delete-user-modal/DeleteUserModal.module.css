@@ -1,0 +1,67 @@
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+.modalWrapper {
+  background-color: #1B1D1E;
+  border-radius: 8px;
+  padding: 24px;
+  width: 400px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  text-align: center;
+}
+
+.title {
+  font-family: var(--font-primary);
+  font-size: var(--font-size-large);
+  font-weight: 600;
+  color: var(--text-white);
+  margin-bottom: 16px;
+}
+
+.warningMessage {
+  font-family: var(--font-primary);
+  font-size: var(--font-size-medium);
+  color: var(--text-white);
+  margin-bottom: 24px;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: space-around;
+}
+
+.button {
+  padding: 12px 24px;
+  font-family: var(--font-primary);
+  font-size: var(--font-size-medium);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  color: var(--text-white);
+  background-color: #2C2C2C;
+  transition: background-color 0.3s ease;
+}
+
+.buttonConfirm {
+  background-color: var(--primary);
+}
+
+.button:hover {
+  background-color: #3A3A3A;
+}
+
+.buttonConfirm:hover {
+  background-color: var(--button-hover);
+}
