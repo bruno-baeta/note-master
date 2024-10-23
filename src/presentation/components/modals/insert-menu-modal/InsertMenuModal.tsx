@@ -1,19 +1,21 @@
 import React, {useState} from 'react';
 import styles from './InsertMenuModal.module.css';
-import {useFolderManagement} from '../../../hooks/folder/useFolderManagement';
 import InputModal from "../input-modal/InputModal";
+import {User} from "../../../../domain/models/User";
+import {useManagementContext} from "../../../../infra/context-api/user/UserManagementContext";
 
 interface InsertMenuModalProps {
-    onClose: () => void;
+    onClose: () => void,
+    user: User
 }
 
-const InsertMenuModal = ({onClose}: InsertMenuModalProps) => {
-    const { handleCreateFolder } = useFolderManagement();
+const InsertMenuModal = ({ onClose, user }: InsertMenuModalProps) => {
+    const {handleCreateFolder} = useManagementContext();
 
     const [currentSubModal, setCurrentModal] = useState<string | null>(null);
 
     const handleNewFolder = async (folderName: string) => {
-        await handleCreateFolder(folderName);
+        await handleCreateFolder(folderName, user.id);
         setCurrentModal(null);
         onClose();
     };

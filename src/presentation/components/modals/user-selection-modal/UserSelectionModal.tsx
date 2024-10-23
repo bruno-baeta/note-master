@@ -1,14 +1,15 @@
 import React from 'react';
 import styles from './UserSelectionModal.module.css';
-import { useUserManagement } from '../../../hooks/user/useUserManagement';
-import {useUserContext} from "../../../../infra/context-api/user/UserManagementContext";
+import {useManagementContext} from "../../../../infra/context-api/user/UserManagementContext";
+import {User} from "../../../../domain/models/User";
 
 interface UserSelectionModalProps {
-    onClose: () => void;
+    onClose: () => void,
+    users: User[],
 }
 
-const UserSelectionModal = ({ onClose }: UserSelectionModalProps) => {
-    const { users, handleSelectUser } = useUserContext();
+const UserSelectionModal = ({ onClose, users }: UserSelectionModalProps) => {
+    const { handleSelectUser } = useManagementContext();
 
     const handleBackdropClick = () => {
         onClose();
@@ -21,14 +22,14 @@ const UserSelectionModal = ({ onClose }: UserSelectionModalProps) => {
 
     return (
         <>
-            <div className={styles.backdrop} onClick={handleBackdropClick} />
+            <div className={styles.backdrop} onClick={handleBackdropClick}/>
             <div className={styles.modalWrapper}>
                 <div className={styles.userList}>
-                    {users.map(({ id, name }) => (
+                    {users.map(({id, name}) => (
                         <div
                             key={id}
                             className={styles.userItem}
-                            onClick={() => handleUserSelect({ id, name })}
+                            onClick={() => handleUserSelect({id, name})}
                         >
                             <div className={styles.userCircle}>
                                 {name.charAt(0).toUpperCase()}

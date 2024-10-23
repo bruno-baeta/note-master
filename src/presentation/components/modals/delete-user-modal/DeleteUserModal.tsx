@@ -1,22 +1,24 @@
 import React from 'react';
 import styles from './DeleteUserModal.module.css';
-import { useUserManagement } from '../../../hooks/user/useUserManagement';
+import {useUserManagement} from '../../../hooks/user/useUserManagement';
+import {User} from "../../../../domain/models/User";
 
 interface DeleteUserModalProps {
-    onClose: () => void;
+    onClose: () => void,
+    user: User,
 }
 
-const DeleteUserModal = ({ onClose }: DeleteUserModalProps) => {
-    const { handleDeleteUser } = useUserManagement();
+const DeleteUserModal = ({onClose, user }: DeleteUserModalProps) => {
+    const {handleDeleteUser} = useUserManagement();
 
     const handleConfirmDelete = async () => {
-        await handleDeleteUser();
+        await handleDeleteUser(user.id);
         onClose();
     };
 
     return (
         <>
-            <div className={styles.backdrop} onClick={onClose} />
+            <div className={styles.backdrop} onClick={onClose}/>
             <div className={styles.modalWrapper}>
                 <h3 className={styles.title}>Apagar Usuário</h3>
                 <p className={styles.warningMessage}>

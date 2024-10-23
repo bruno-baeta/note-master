@@ -1,14 +1,14 @@
 import React from 'react';
 import Header from '../components/header/Header';
 import FoldersList from "../components/folders-list/FoldersList";
-import {useUserContext} from "../../infra/context-api/user/UserManagementContext";
+import {useManagementContext} from "../../infra/context-api/user/UserManagementContext";
 
 const Home = () => {
-    const { folders } = useUserContext();
+    const { user, users, folders } = useManagementContext();
 
     return (
         <div>
-            <Header title="NoteMaster" />
+            <Header title="NoteMaster" user={user} users={users}/>
             <FoldersList folders={folders} />
         </div>
     );

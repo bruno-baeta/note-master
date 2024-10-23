@@ -1,15 +1,17 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import styles from './InputModal.module.css';
+import {User} from "../../../../domain/models/User";
 
 interface InputModalProps {
-    title: string;
-    placeholder: string;
-    onSubmit: (value: string) => void;
-    onClose: () => void;
-    buttonText: string;
+    title: string,
+    placeholder: string,
+    onSubmit: (value: string) => void,
+    onClose: () => void,
+    buttonText: string,
+    user?: User,
 }
 
-const InputModal = ({ title, placeholder, onSubmit, onClose, buttonText }: InputModalProps) => {
+const InputModal = ({title, placeholder, onSubmit, onClose, buttonText, user}: InputModalProps) => {
     const [inputValue, setInputValue] = useState('');
 
     const handleSubmit = () => {
@@ -19,7 +21,7 @@ const InputModal = ({ title, placeholder, onSubmit, onClose, buttonText }: Input
 
     return (
         <>
-            <div className={styles.backdrop} onClick={onClose} />
+            <div className={styles.backdrop} onClick={onClose}/>
             <div className={styles.modalWrapper}>
                 <h3 className={styles.modalTitle}>{title}</h3>
                 <input

@@ -55,7 +55,7 @@
 }
 
 .buttonConfirm {
-  background-color: var(--primary);
+  background-color: #4285F4;
 }
 
 .button:hover {
@@ -63,5 +63,5 @@
 }
 
 .buttonConfirm:hover {
-  background-color: var(--button-hover);
+  background-color: #699bf1;
 }

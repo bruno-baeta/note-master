@@ -15,8 +15,8 @@
   width: 220px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   position: fixed;
-  top: 8%;
-  right: 3.7%;
+  top: 15vh;
+  right: 6vw;
   z-index: 1000;
 }
 

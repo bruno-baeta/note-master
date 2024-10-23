@@ -4,8 +4,15 @@ import UserRoundedButton from '../user/UserRoundedButton';
 import Button from '../button/Button';
 import styles from './Header.module.css';
 import InsertMenuModal from '../modals/insert-menu-modal/InsertMenuModal';
+import {User} from "../../../domain/models/User";
 
-const Header = ({ title }: { title: string }) => {
+interface HeaderProps {
+    title: string;
+    user: User;
+    users: User[];
+}
+
+const Header = ({ title, user, users }: HeaderProps) => {
     const [isInsertMenuOpen, setIsInsertMenuOpen] = useState(false);
 
     const handleOpenInsertMenu = () => {
@@ -25,11 +32,11 @@ const Header = ({ title }: { title: string }) => {
                     icon={FiPlus}
                     onClick={handleOpenInsertMenu}
                 />
-                <UserRoundedButton />
+                <UserRoundedButton user={user} users={users} />
             </div>
 
             {isInsertMenuOpen && (
-                <InsertMenuModal onClose={handleCloseInsertMenu} />
+                <InsertMenuModal user={user} onClose={handleCloseInsertMenu} />
             )}
         </header>
     );

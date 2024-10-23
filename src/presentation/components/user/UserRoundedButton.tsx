@@ -1,11 +1,15 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import styles from './UserRoundedButton.module.css';
 import UserMenuModal from "../modals/user-menu-modal/UserMenuModal";
-import {useUserContext} from "../../../infra/context-api/user/UserManagementContext";
+import {User} from "../../../domain/models/User";
 
-const UserRoundedButton = () => {
+interface UserRoundedButtonProps {
+    user: User;
+    users: User[];
+}
+
+const UserRoundedButton = ({ user, users }: UserRoundedButtonProps) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const { user } = useUserContext();
 
     const getInitial = (name: string) => {
         return name.charAt(0).toUpperCase();
@@ -27,7 +31,7 @@ const UserRoundedButton = () => {
                 </span>
             </div>
 
-            {isMenuOpen && <UserMenuModal onClose={handleCloseMenu} />}
+            {isMenuOpen && <UserMenuModal user={user} users={users} onClose={handleCloseMenu}/>}
         </>
     );
 };

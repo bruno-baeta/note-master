@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import {createGlobalStyle} from 'styled-components';
-import {UserProvider} from "./infra/context-api/user/UserManagementContext";
+import {ManagementProvider} from "./infra/context-api/user/UserManagementContext";
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {
@@ -23,8 +23,8 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 root.render(
-    <UserProvider>
+    <ManagementProvider>
         <GlobalStyle/>
         <App/>
-    </UserProvider>
+    </ManagementProvider>
 );

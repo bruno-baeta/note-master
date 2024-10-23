@@ -1,21 +1,27 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import styles from './UserMenuModal.module.css';
 import DeleteUserModal from "../delete-user-modal/DeleteUserModal";
 import UserSelectionModal from "../user-selection-modal/UserSelectionModal";
 import InputModal from "../input-modal/InputModal";
-import {useUserContext} from "../../../../infra/context-api/user/UserManagementContext";
+import {useManagementContext} from "../../../../infra/context-api/user/UserManagementContext";
+import {User} from "../../../../domain/models/User";
 
 interface UserMenuModalProps {
-    onClose: () => void;
+    onClose: () => void,
+    user: User,
+    users: User[],
 }
 
-const UserMenuModal = ({ onClose }: UserMenuModalProps) => {
+const UserMenuModal = ({onClose, user, users }: UserMenuModalProps) => {
     const [currentSubModal, setCurrentSubModal] = useState<string | null>(null);
     const {
-        user,
         handleCreateUser,
         handleUpdateUser
-    } = useUserContext();
+    } = useManagementContext();
+
+    const onUpdateUser = async (value: string) => {
+        await handleUpdateUser(value, user.id)
+    }
 
     const handleBackdropClick = () => {
         setCurrentSubModal(null);
@@ -24,7 +30,7 @@ const UserMenuModal = ({ onClose }: UserMenuModalProps) => {
 
     return (
         <>
-            <div className={styles.backdrop} onClick={handleBackdropClick} />
+            <div className={styles.backdrop} onClick={handleBackdropClick}/>
             <div className={styles.modalWrapper}>
                 <div className={styles.userCircle}>
                     {user ? user.name.charAt(0).toUpperCase() : '?'}
@@ -39,21 +45,21 @@ const UserMenuModal = ({ onClose }: UserMenuModalProps) => {
                     >
                         Alterar Nome
                     </li>
-                    <hr className={styles.divider} />
+                    <hr className={styles.divider}/>
                     <li
                         className={styles.optionItem}
                         onClick={() => setCurrentSubModal('createUser')}
                     >
                         Criar Novo Usuário
                     </li>
-                    <hr className={styles.divider} />
+                    <hr className={styles.divider}/>
                     <li
                         className={styles.optionItem}
                         onClick={() => setCurrentSubModal('selectUser')}
                     >
                         Trocar Usuário
                     </li>
-                    <hr className={styles.divider} />
+                    <hr className={styles.divider}/>
                     <li
                         className={styles.optionItem}
                         onClick={() => setCurrentSubModal('deleteUser')}
@@ -67,7 +73,7 @@ const UserMenuModal = ({ onClose }: UserMenuModalProps) => {
                         title="Alterar Usuário"
                         placeholder="Digite o nome do usuário"
                         buttonText="Alterar"
-                        onSubmit={handleUpdateUser}
+                        onSubmit={onUpdateUser}
                         onClose={() => setCurrentSubModal(null)}
                     />
                 )}
@@ -83,11 +89,11 @@ const UserMenuModal = ({ onClose }: UserMenuModalProps) => {
                 )}
 
                 {currentSubModal === 'selectUser' && (
-                    <UserSelectionModal onClose={() => setCurrentSubModal(null)} />
+                    <UserSelectionModal users={users} onClose={() => setCurrentSubModal(null)}/>
                 )}
 
                 {currentSubModal === 'deleteUser' && (
-                    <DeleteUserModal onClose={() => setCurrentSubModal(null)} />
+                    <DeleteUserModal user={user} onClose={() => setCurrentSubModal(null)}/>
                 )}
             </div>
         </>

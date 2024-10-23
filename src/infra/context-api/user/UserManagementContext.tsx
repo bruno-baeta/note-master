@@ -1,37 +1,56 @@
-import React, { createContext, useContext, ReactNode } from 'react';
+import React, { createContext, useContext, ReactNode, useEffect } from 'react';
 import { User } from '../../../domain/models/User';
-import { useUserManagement } from "../../../presentation/hooks/user/useUserManagement";
-import {Folder} from "../../../domain/models/Folder";
+import { Folder } from '../../../domain/models/Folder';
+import { useUserManagement } from '../../../presentation/hooks/user/useUserManagement';
+import { useFolderManagement } from '../../../presentation/hooks/folder/useFolderManagement';
 
-interface UserManagementContextProps {
+interface ManagementContextProps {
     user: User;
     users: User[];
     folders: Folder[];
     handleCreateUser: (userName: string) => Promise<void>;
-    handleUpdateUser: (newName: string) => Promise<void>;
-    handleDeleteUser: () => Promise<void>;
+    handleUpdateUser: (newName: string, userId: number) => Promise<void>;
+    handleDeleteUser: (userId: number) => Promise<void>;
     handleSelectUser: (selectedUser: User) => Promise<void>;
-    getFoldersByUser: (userId: number) => Promise<void>;
+    handleCreateFolder: (folderName: string, userId: number) => Promise<void>;
 }
 
-type UserProviderProps = {
+type ProviderProps = {
     children: ReactNode;
 };
 
-const UserManagementContext = createContext<UserManagementContextProps | undefined>(undefined);
+const ManagementContext = createContext<ManagementContextProps | undefined>(undefined);
 
-export const UserProvider = ({ children }: UserProviderProps) => {
-    const userManagement = useUserManagement();
+export const ManagementProvider = ({ children }: ProviderProps) => {
+    const { user, users, handleCreateUser, handleUpdateUser, handleDeleteUser, handleSelectUser } = useUserManagement();
+    const { folders, handleCreateFolder, handleGetFoldersByUser } = useFolderManagement();
+
+    useEffect(() => {
+        handleGetFoldersByUser(user.id);
+    }, [user]);
 
     return (
-        <UserManagementContext.Provider value={userManagement}>
+        <ManagementContext.Provider
+            value={{
+                user,
+                users,
+                folders,
+                handleCreateUser,
+                handleUpdateUser,
+                handleDeleteUser,
+                handleSelectUser,
+                handleCreateFolder,
+            }}
+        >
             {children}
-        </UserManagementContext.Provider>
+        </ManagementContext.Provider>
     );
 };
 
-export const useUserContext = () => {
-    const context = useContext(UserManagementContext);
-    if (!context) throw new Error("useUserContext must be used within a UserProvider");
+export const useManagementContext = () => {
+    const context = useContext(ManagementContext);
+    if (!context) {
+        throw new Error("useManagementContext must be used within a ManagementProvider");
+    }
     return context;
 };

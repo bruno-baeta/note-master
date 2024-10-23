@@ -1,19 +1,24 @@
-import {useCreateFolder} from "./useCreateFolder";
-import {Folder} from "../../../domain/models/Folder";
-import {useUserContext} from "../../../infra/context-api/user/UserManagementContext";
+import { useCreateFolder } from "./useCreateFolder";
+import { Folder } from "../../../domain/models/Folder";
+import { useGetFoldersByUser } from "./useGetFoldersByUser";
 
 export const useFolderManagement = () => {
     const { createFolder } = useCreateFolder();
-    const { user, folders, getFoldersByUser,  } = useUserContext();
+    const { folders, getFoldersByUser } = useGetFoldersByUser();
 
-    const handleCreateFolder = async (folderName: string) => {
-        const newFolder: Folder = { name: folderName, parentId: 0, userId: user.id };
+    const handleCreateFolder = async (folderName: string, userId: number) => {
+        const newFolder: Folder = { name: folderName, parentId: 0, userId: userId };
         await createFolder(newFolder);
-        await getFoldersByUser(user.id);
+        await handleGetFoldersByUser(userId);
+    };
+
+    const handleGetFoldersByUser = async (userId: number) => {
+        await getFoldersByUser(userId);
     };
 
     return {
         folders,
         handleCreateFolder,
+        handleGetFoldersByUser,
     };
 };
