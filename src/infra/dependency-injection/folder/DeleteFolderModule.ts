@@ -1,8 +1,8 @@
-import {DeleteUserDataSourceImpl} from "../../../data/data-source/user/delete-user/DeleteUserDataSourceImpl";
-import {DeleteUserRepositoryImpl} from "../../../data/repository/user/delete-user/DeleteUserRepositoryImpl";
 import {DeleteFolderUseCaseImpl} from "../../../domain/usecase/folder/delete-folder/DeleteFolderUseCaseImpl";
+import {DeleteFolderDataSourceImpl} from "../../../data/data-source/folder/delete-folder/DeleteFolderDataSourceImpl";
+import {DeleteFolderRepositoryImpl} from "../../../data/repository/folder/delete-folder/DeleteFolderRepositoryImpl";
 
-const deleteFolderDataSource = new DeleteUserDataSourceImpl();
-const deleteFolderRepository = new DeleteUserRepositoryImpl(deleteFolderDataSource);
+const deleteFolderDataSource = new DeleteFolderDataSourceImpl();
+const deleteFolderRepository = new DeleteFolderRepositoryImpl(deleteFolderDataSource);
 
 export const deleteFolderUseCase = new DeleteFolderUseCaseImpl(deleteFolderRepository);

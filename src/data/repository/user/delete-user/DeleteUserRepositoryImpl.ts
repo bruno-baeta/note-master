@@ -1,13 +1,18 @@
 import { DeleteUserRepository } from './DeleteUserRepository';
 import { DeleteUserDataSource } from '../../../data-source/user/delete-user/DeleteUserDataSource';
+import {
+    DeleteAllUserFoldersDataSource
+} from "../../../data-source/folder/delete-all-user-folders/DeleteAllUserFoldersDataSource";
 
 export class DeleteUserRepositoryImpl implements DeleteUserRepository {
 
     constructor(
-        private readonly dataSource: DeleteUserDataSource
+        private readonly userDataSource: DeleteUserDataSource,
+        private readonly deleteAllUserFoldersDataSource: DeleteAllUserFoldersDataSource,
     ) {}
 
-    async handle(id: number): Promise<void> {
-        await this.dataSource.handle(id);
+    async handle(userId: number): Promise<void> {
+        await this.deleteAllUserFoldersDataSource.handle(userId);
+        await this.userDataSource.handle(userId);
     }
 }
