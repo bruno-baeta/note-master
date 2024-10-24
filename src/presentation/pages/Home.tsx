@@ -8,7 +8,13 @@ const Home = () => {
 
     return (
         <div>
-            <Header folderParentId={0} title="NoteMaster" user={user} users={users}/>
+            <Header
+                newButtonIsEnabled={true}
+                folderParentId={0}
+                title="NoteMaster"
+                user={user}
+                users={users}
+            />
             <FoldersList folders={folders} />
         </div>
     );

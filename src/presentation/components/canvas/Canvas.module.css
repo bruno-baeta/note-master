@@ -1,0 +1,38 @@
+.canvas {
+    background-color: #181A1B;
+    border: 2px solid #1E2022;
+    position: relative;
+    margin: 12px 42px;
+    box-sizing: border-box;
+    height: calc(98vh - 92px);
+    width: calc(100vw - 80px);
+    overflow: hidden;
+    border-radius: 20px;
+}
+
+.sideButtons {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    z-index: 10;
+}
+
+.sideButton {
+    background-color: #1E2022;
+    color: white;
+    border: none;
+    margin-bottom: 10px;
+    cursor: pointer;
+    padding: 10px 25px;
+    border-radius: 14px;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+    transition: background 0.3s ease;
+}
+
+.sideButton:hover {
+    background-color: #292D2E;
+}

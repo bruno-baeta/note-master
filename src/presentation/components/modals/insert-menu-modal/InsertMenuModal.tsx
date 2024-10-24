@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import styles from './InsertMenuModal.module.css';
 import InputModal from "../input-modal/InputModal";
-import { User } from "../../../../domain/models/User";
-import { useManagementContext } from "../../../../infra/context-api/management/ManagementContextProvider";
+import {User} from "../../../../domain/models/User";
+import {useManagementContext} from "../../../../infra/context-api/management/ManagementContextProvider";
+import {useNavigate} from "react-router-dom";
 
 interface InsertMenuModalProps {
     onClose: () => void,
@@ -10,14 +11,19 @@ interface InsertMenuModalProps {
     user: User,
 }
 
-const InsertMenuModal = ({ onClose, user, folderParentId }: InsertMenuModalProps) => {
-    const { handleCreateFolder } = useManagementContext();
-    const [ currentSubModal, setCurrentSubModal] = useState<string | null>(null);
+const InsertMenuModal = ({onClose, user, folderParentId}: InsertMenuModalProps) => {
+    const {handleCreateFolder} = useManagementContext();
+    const [currentSubModal, setCurrentSubModal] = useState<string | null>(null);
+    const navigate = useNavigate();
 
     const handleNewFolder = async (folderName: string) => {
         await handleCreateFolder(folderName, user.id, folderParentId);
         setCurrentSubModal(null);
         onClose();
+    };
+
+    const handleNewNote = async (noteName: string) => {
+        navigate(`/note/${noteName}`, { state: { noteName }});
     };
 
     const openSubModal = (modalType: string) => {
@@ -46,7 +52,9 @@ const InsertMenuModal = ({ onClose, user, folderParentId }: InsertMenuModalProps
                             Nova Pasta
                         </li>
                         <hr className={styles.divider}/>
-                        <li className={styles.optionItem}>Nova Anotação</li>
+                        <li className={styles.optionItem} onClick={() => openSubModal('newNote')}>
+                            Nova Anotação
+                        </li>
                     </ul>
                 </div>
             )}
@@ -57,6 +65,16 @@ const InsertMenuModal = ({ onClose, user, folderParentId }: InsertMenuModalProps
                     placeholder="Digite o nome da pasta"
                     buttonText="Criar"
                     onSubmit={handleNewFolder}
+                    onClose={closeBothModals}
+                />
+            )}
+
+            {currentSubModal === 'newNote' && (
+                <InputModal
+                    title="Nova Anotação"
+                    placeholder="Digite o nome da anotação"
+                    buttonText="Criar"
+                    onSubmit={handleNewNote}
                     onClose={closeBothModals}
                 />
             )}

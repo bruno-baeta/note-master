@@ -15,7 +15,13 @@ const Folder = () => {
 
     return (
         <div>
-            <Header folderParentId={folder.id} user={user} users={users} title={folder.name} />
+            <Header
+                newButtonIsEnabled={true}
+                folderParentId={folder.id}
+                user={user}
+                users={users}
+                title={folder.name}
+            />
             <FoldersList folders={subfolders} />
         </div>
     );
