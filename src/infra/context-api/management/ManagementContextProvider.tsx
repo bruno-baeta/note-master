@@ -23,7 +23,7 @@ type ProviderProps = {
 
 const ManagementContext = createContext<ManagementContextProps | undefined>(undefined);
 
-export const ManagementProvider = ({ children }: ProviderProps) => {
+export const ManagementContextProvider = ({ children }: ProviderProps) => {
     const {
         user,
         users,
@@ -68,7 +68,7 @@ export const ManagementProvider = ({ children }: ProviderProps) => {
 export const useManagementContext = () => {
     const context = useContext(ManagementContext);
     if (!context) {
-        throw new Error("useManagementContext must be used within a ManagementProvider");
+        throw new Error("useManagementContext must be used within a ManagementContextProvider");
     }
     return context;
 };
