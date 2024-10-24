@@ -10,7 +10,7 @@ export const useGetLastLoggedUser = () => {
     const getLastLoggedUser = async () => {
         try {
             const lastLoggedUser = await getLastUserLoggedUseCase.handle();
-            setUser(lastLoggedUser ?? unknownUser);
+            setUser(lastLoggedUser);
         } catch (err) {
             setError((err as Error).message);
         }

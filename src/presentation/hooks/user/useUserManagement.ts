@@ -40,7 +40,9 @@ export const useUserManagement = () => {
 
     const handleDeleteUser = async (userId: number) => {
         await deleteUser(userId);
-        const nextUser = users.length > 0 ? users[0] : { id: Date.now(), name: "Desconhecido" };
+        const remainingUsers = users.filter(user => user.id !== userId);
+        const nextUser = remainingUsers[remainingUsers.length - 1] || { id: Date.now(), name: "Desconhecido" };
+        console.log('next: ', nextUser);
         await saveLastLoggedUser(nextUser);
         await reloadUsers();
     };

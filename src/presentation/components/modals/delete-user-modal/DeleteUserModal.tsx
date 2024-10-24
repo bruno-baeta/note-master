@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './DeleteUserModal.module.css';
 import {useUserManagement} from '../../../hooks/user/useUserManagement';
 import {User} from "../../../../domain/models/User";
+import {useManagementContext} from "../../../../infra/context-api/user/UserManagementContext";
 
 interface DeleteUserModalProps {
     onClose: () => void,
@@ -9,7 +10,7 @@ interface DeleteUserModalProps {
 }
 
 const DeleteUserModal = ({onClose, user }: DeleteUserModalProps) => {
-    const {handleDeleteUser} = useUserManagement();
+    const {handleDeleteUser} = useManagementContext();
 
     const handleConfirmDelete = async () => {
         await handleDeleteUser(user.id);
