@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import DeleteModal from '../delete-modal/DeleteModal';
 import InputModal from '../input-modal/InputModal';
 import styles from './FolderOptionsModal.module.css';
@@ -14,6 +14,17 @@ interface FolderOptionsModalProps {
 const FolderOptionsModal = ({ position, folder, onClose }: FolderOptionsModalProps) => {
     const { handleDeleteFolder, handleUpdateFolder } = useManagementContext();
     const [currentSubModal, setCurrentSubModal] = useState<string | null>(null);
+    const [adjustedPosition, setAdjustedPosition] = useState(position);
+
+    useEffect(() => {
+        const modalWidth = 200;
+        const modalHeight = 100;
+
+        const adjustedX = position.x + modalWidth > window.innerWidth ? window.innerWidth - modalWidth - 20 : position.x;
+        const adjustedY = position.y + modalHeight > window.innerHeight ? window.innerHeight - modalHeight - 20 : position.y;
+
+        setAdjustedPosition({ x: adjustedX, y: adjustedY });
+    }, [position]);
 
     const handleRenameFolder = async (newFolderName: string) => {
         await handleUpdateFolder(newFolderName, folder);
@@ -47,7 +58,7 @@ const FolderOptionsModal = ({ position, folder, onClose }: FolderOptionsModalPro
             <div className={styles.backdrop} onClick={handleBackdropClick} />
 
             {!currentSubModal && (
-                <div className={styles.modalWrapper} style={{ top: position.y, left: position.x }}>
+                <div className={styles.modalWrapper} style={{ top: adjustedPosition.y, left: adjustedPosition.x }}>
                     <ul className={styles.optionList}>
                         <li className={styles.optionItem} onClick={() => openSubModal('inputModal')}>
                             Renomear

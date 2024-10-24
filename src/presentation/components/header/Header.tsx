@@ -10,9 +10,10 @@ interface HeaderProps {
     title: string;
     user: User;
     users: User[];
+    folderParentId: number;
 }
 
-const Header = ({ title, user, users }: HeaderProps) => {
+const Header = ({ title, user, users, folderParentId }: HeaderProps) => {
     const [isInsertMenuOpen, setIsInsertMenuOpen] = useState(false);
 
     const handleOpenInsertMenu = () => {
@@ -36,7 +37,7 @@ const Header = ({ title, user, users }: HeaderProps) => {
             </div>
 
             {isInsertMenuOpen && (
-                <InsertMenuModal user={user} onClose={handleCloseInsertMenu} />
+                <InsertMenuModal folderParentId={folderParentId} user={user} onClose={handleCloseInsertMenu} />
             )}
         </header>
     );

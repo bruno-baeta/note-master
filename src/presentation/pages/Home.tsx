@@ -8,7 +8,7 @@ const Home = () => {
 
     return (
         <div>
-            <Header title="NoteMaster" user={user} users={users}/>
+            <Header folderParentId={0} title="NoteMaster" user={user} users={users}/>
             <FoldersList folders={folders} />
         </div>
     );

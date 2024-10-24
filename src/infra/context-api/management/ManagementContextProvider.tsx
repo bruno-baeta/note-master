@@ -8,13 +8,15 @@ interface ManagementContextProps {
     user: User;
     users: User[];
     folders: Folder[];
+    subfolders: Folder[];
     handleCreateUser: (userName: string) => Promise<void>;
     handleUpdateUser: (newName: string, userId: number) => Promise<void>;
     handleDeleteUser: (userId: number) => Promise<void>;
     handleSelectUser: (selectedUser: User) => Promise<void>;
-    handleCreateFolder: (folderName: string, userId: number) => Promise<void>;
+    handleCreateFolder: (folderName: string, userId: number, parentId: number) => Promise<void>;
     handleUpdateFolder: (name: string, folder: Folder) => Promise<void>;
     handleDeleteFolder: (folderId: number, userId: number) => Promise<void>;
+    handleGetSubfolders: (parentId: number) => Promise<void>;
 }
 
 type ProviderProps = {
@@ -35,10 +37,12 @@ export const ManagementContextProvider = ({ children }: ProviderProps) => {
 
     const {
         folders,
+        subfolders,
         handleCreateFolder,
         handleGetFoldersByUser,
         handleDeleteFolder,
         handleUpdateFolder,
+        handleGetSubfolders,
     } = useFolderManagement();
 
     useEffect(() => {
@@ -51,6 +55,7 @@ export const ManagementContextProvider = ({ children }: ProviderProps) => {
                 user,
                 users,
                 folders,
+                subfolders,
                 handleCreateUser,
                 handleUpdateUser,
                 handleDeleteUser,
@@ -58,6 +63,7 @@ export const ManagementContextProvider = ({ children }: ProviderProps) => {
                 handleCreateFolder,
                 handleUpdateFolder,
                 handleDeleteFolder,
+                handleGetSubfolders,
             }}
         >
             {children}

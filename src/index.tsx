@@ -4,7 +4,6 @@ import './index.css';
 import App from './App';
 import {createGlobalStyle} from 'styled-components';
 import {ManagementContextProvider} from "./infra/context-api/management/ManagementContextProvider";
-import {ModalProvider} from "./infra/context-api/modal/ModalContext";
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {
@@ -25,9 +24,7 @@ const GlobalStyle = createGlobalStyle`
 
 root.render(
     <ManagementContextProvider>
-        <ModalProvider>
-            <GlobalStyle/>
-            <App/>
-        </ModalProvider>
+        <GlobalStyle/>
+        <App/>
     </ManagementContextProvider>
 );
