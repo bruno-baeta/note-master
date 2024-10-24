@@ -1,27 +1,30 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import styles from './UserMenuModal.module.css';
-import DeleteUserModal from "../delete-user-modal/DeleteUserModal";
+import DeleteModal from "../delete-modal/DeleteModal";
 import UserSelectionModal from "../user-selection-modal/UserSelectionModal";
 import InputModal from "../input-modal/InputModal";
-import {useManagementContext} from "../../../../infra/context-api/user/UserManagementContext";
-import {User} from "../../../../domain/models/User";
+import { useManagementContext } from "../../../../infra/context-api/user/UserManagementContext";
+import { User } from "../../../../domain/models/User";
 
 interface UserMenuModalProps {
-    onClose: () => void,
-    user: User,
-    users: User[],
+    onClose: () => void;
+    user: User;
+    users: User[];
 }
 
-const UserMenuModal = ({onClose, user, users }: UserMenuModalProps) => {
+const UserMenuModal = ({ onClose, user, users }: UserMenuModalProps) => {
     const [currentSubModal, setCurrentSubModal] = useState<string | null>(null);
-    const {
-        handleCreateUser,
-        handleUpdateUser
-    } = useManagementContext();
+    const { handleCreateUser, handleUpdateUser, handleDeleteUser } = useManagementContext();
 
     const onUpdateUser = async (value: string) => {
-        await handleUpdateUser(value, user.id)
-    }
+        await handleUpdateUser(value, user.id);
+    };
+
+    const onDeleteUser = async () => {
+        await handleDeleteUser(user.id); // Função de deletar o usuário
+        setCurrentSubModal(null);
+        onClose();
+    };
 
     const handleBackdropClick = () => {
         setCurrentSubModal(null);
@@ -30,7 +33,7 @@ const UserMenuModal = ({onClose, user, users }: UserMenuModalProps) => {
 
     return (
         <>
-            <div className={styles.backdrop} onClick={handleBackdropClick}/>
+            <div className={styles.backdrop} onClick={handleBackdropClick} />
             <div className={styles.modalWrapper}>
                 <div className={styles.userCircle}>
                     {user ? user.name.charAt(0).toUpperCase() : '?'}
@@ -45,21 +48,21 @@ const UserMenuModal = ({onClose, user, users }: UserMenuModalProps) => {
                     >
                         Alterar Nome
                     </li>
-                    <hr className={styles.divider}/>
+                    <hr className={styles.divider} />
                     <li
                         className={styles.optionItem}
                         onClick={() => setCurrentSubModal('createUser')}
                     >
                         Criar Novo Usuário
                     </li>
-                    <hr className={styles.divider}/>
+                    <hr className={styles.divider} />
                     <li
                         className={styles.optionItem}
                         onClick={() => setCurrentSubModal('selectUser')}
                     >
                         Trocar Usuário
                     </li>
-                    <hr className={styles.divider}/>
+                    <hr className={styles.divider} />
                     <li
                         className={styles.optionItem}
                         onClick={() => setCurrentSubModal('deleteUser')}
@@ -89,11 +92,18 @@ const UserMenuModal = ({onClose, user, users }: UserMenuModalProps) => {
                 )}
 
                 {currentSubModal === 'selectUser' && (
-                    <UserSelectionModal users={users} onClose={() => setCurrentSubModal(null)}/>
+                    <UserSelectionModal users={users} onClose={() => setCurrentSubModal(null)} />
                 )}
 
                 {currentSubModal === 'deleteUser' && (
-                    <DeleteUserModal user={user} onClose={() => setCurrentSubModal(null)}/>
+                    <DeleteModal
+                        title="Apagar Usuário"
+                        message={`Tem certeza de que deseja apagar o usuário "${user.name}"? Esta ação não pode ser desfeita.`}
+                        confirmText="Confirmar"
+                        cancelText="Cancelar"
+                        onConfirm={onDeleteUser}
+                        onClose={() => setCurrentSubModal(null)}
+                    />
                 )}
             </div>
         </>

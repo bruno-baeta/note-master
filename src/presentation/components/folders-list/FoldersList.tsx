@@ -13,7 +13,7 @@ const FoldersList = ({folders}: FoldersListProps) => {
             <h2 className={styles.title}>Pastas</h2>
             <div className={styles.folderContainer}>
                 {folders.map((folder: Folder) => (
-                    <FolderCard key={folder.id} folderName={folder.name}/>
+                    <FolderCard folder={folder}/>
                 ))}
             </div>
         </div>

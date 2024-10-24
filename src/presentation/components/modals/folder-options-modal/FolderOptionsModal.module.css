@@ -1,0 +1,48 @@
+.backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+.modalWrapper {
+    background-color: #1B1D1E;
+    border-radius: 8px;
+    padding: 10px;
+    width: 180px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    position: absolute;
+    z-index: 1000;
+}
+
+.optionList {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.optionItem {
+    display: flex;
+    align-items: center;
+    padding: 12px 8px;
+    color: var(--text-white);
+    font-family: var(--font-primary), serif;
+    font-size: var(--font-size-medium);
+    font-weight: 500;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.optionItem:hover {
+    background-color: #292D2E;
+    transform: scale(1.02);
+}
+
+.divider {
+    border: 1px solid #292D2E;
+    margin: 8px 0;
+}

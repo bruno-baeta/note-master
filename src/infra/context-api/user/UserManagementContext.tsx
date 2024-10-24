@@ -13,6 +13,8 @@ interface ManagementContextProps {
     handleDeleteUser: (userId: number) => Promise<void>;
     handleSelectUser: (selectedUser: User) => Promise<void>;
     handleCreateFolder: (folderName: string, userId: number) => Promise<void>;
+    handleUpdateFolder: (name: string, folder: Folder) => Promise<void>;
+    handleDeleteFolder: (folderId: number, userId: number) => Promise<void>;
 }
 
 type ProviderProps = {
@@ -22,8 +24,22 @@ type ProviderProps = {
 const ManagementContext = createContext<ManagementContextProps | undefined>(undefined);
 
 export const ManagementProvider = ({ children }: ProviderProps) => {
-    const { user, users, handleCreateUser, handleUpdateUser, handleDeleteUser, handleSelectUser } = useUserManagement();
-    const { folders, handleCreateFolder, handleGetFoldersByUser } = useFolderManagement();
+    const {
+        user,
+        users,
+        handleCreateUser,
+        handleUpdateUser,
+        handleDeleteUser,
+        handleSelectUser
+    } = useUserManagement();
+
+    const {
+        folders,
+        handleCreateFolder,
+        handleGetFoldersByUser,
+        handleDeleteFolder,
+        handleUpdateFolder,
+    } = useFolderManagement();
 
     useEffect(() => {
         handleGetFoldersByUser(user.id);
@@ -40,6 +56,8 @@ export const ManagementProvider = ({ children }: ProviderProps) => {
                 handleDeleteUser,
                 handleSelectUser,
                 handleCreateFolder,
+                handleUpdateFolder,
+                handleDeleteFolder,
             }}
         >
             {children}
