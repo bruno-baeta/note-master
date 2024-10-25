@@ -65,3 +65,23 @@
 .cursorGrabbing {
     cursor: grabbing;
 }
+
+.fullscreenButton {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    background-color: #1E2022;
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 10px 25px;
+    border-radius: 14px;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+    transition: background 0.3s ease;
+}
+
+.fullscreenButton:hover {
+    background-color: #292D2E;
+}

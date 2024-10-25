@@ -5,6 +5,8 @@ import styles from './Canvas.module.css';
 import { CanvasItemType, Position } from "./CanvasItemType";
 import { useDrag } from "../../hooks/drag/useDrag";
 import { useZoom } from "../../hooks/zoom/useZoom";
+import { FaExpand, FaCompress } from 'react-icons/fa';
+import {useFullscreen} from "../../hooks/fullscreen/useFullscreen";
 
 const Canvas: React.FC = () => {
     const [items, setItems] = useState<CanvasItemType[]>([]);
@@ -31,6 +33,8 @@ const Canvas: React.FC = () => {
         canvasPosition,
         setCanvasPosition,
     });
+
+    const { isFullscreen, toggleFullscreen } = useFullscreen(canvasRef);
 
     const addItem = (type: string) => {
         if (canvasRef.current) {
@@ -68,10 +72,9 @@ const Canvas: React.FC = () => {
     }, []);
 
     return (
-        <div className={styles.canvasContainer}>
+        <div className={styles.canvasContainer} ref={canvasRef}>
             <div
                 className={`${styles.canvas} ${isDraggingCanvas ? styles.cursorGrabbing : styles.cursorGrab}`}
-                ref={canvasRef}
                 onMouseDown={handleCanvasMouseDown}
             >
                 <div
@@ -97,32 +100,17 @@ const Canvas: React.FC = () => {
                     ))}
                 </div>
             </div>
+
             <div className={styles.sideButtons}>
-                <button
-                    className={styles.sideButton}
-                    onClick={() => addItem('Texto')}
-                >
-                    Adicionar Texto
-                </button>
-                <button
-                    className={styles.sideButton}
-                    onClick={() => addItem('Post-it')}
-                >
-                    Adicionar Post-it
-                </button>
-                <button
-                    className={styles.sideButton}
-                    onClick={() => addItem('Imagem')}
-                >
-                    Adicionar Imagem
-                </button>
-                <button
-                    className={styles.sideButton}
-                    onClick={() => addItem('Código')}
-                >
-                    Adicionar Código
-                </button>
+                <button className={styles.sideButton} onClick={() => addItem('Texto')}>Adicionar Texto</button>
+                <button className={styles.sideButton} onClick={() => addItem('Post-it')}>Adicionar Post-it</button>
+                <button className={styles.sideButton} onClick={() => addItem('Imagem')}>Adicionar Imagem</button>
+                <button className={styles.sideButton} onClick={() => addItem('Código')}>Adicionar Código</button>
             </div>
+
+            <button className={styles.fullscreenButton} onClick={toggleFullscreen}>
+                {isFullscreen ? <FaCompress /> : <FaExpand />}
+            </button>
         </div>
     );
 };
