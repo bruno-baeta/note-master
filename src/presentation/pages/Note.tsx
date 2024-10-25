@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import {useManagementContext} from "../../infra/context-api/management/ManagementContextProvider";
-import {CanvasItemType} from "../components/canvas/CanvasItemType";
+import React, { useState, useRef, useEffect } from 'react';
 import Header from "../components/header/Header";
-import Canvas from "../components/canvas/Canvas";
+import {useManagementContext} from "../../infra/context-api/management/ManagementContextProvider";
 import {useLocation} from "react-router-dom";
+import {CanvasItemType} from "../components/canvas/CanvasItemType";
+import Canvas from "../components/canvas/Canvas";
 
 const Note: React.FC = () => {
     const location = useLocation();
@@ -20,7 +20,7 @@ const Note: React.FC = () => {
                 title={noteName}
             />
             <div>
-                <Canvas items={items} setItems={setItems}/>
+                <Canvas />
             </div>
         </div>
     );
