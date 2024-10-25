@@ -1,13 +1,18 @@
+// types.ts
 export interface CanvasItemType {
     id: number;
     type: string;
     content: string;
-    position: {
-        x: number;
-        y: number;
-    };
-    size: {
-        width: number;
-        height: number;
-    };
+    position: Position;
+    size: Size;
+}
+
+export interface Position {
+    x: number;
+    y: number;
+}
+
+export interface Size {
+    width: number;
+    height: number;
 }
