@@ -8,6 +8,8 @@ import { useZoom } from "../../hooks/zoom/useZoom";
 import { useFullscreen } from "../../hooks/fullscreen/useFullscreen";
 import { FaExpand, FaCompress } from 'react-icons/fa';
 import EditBar from "../edit-bar/EditBar";
+import {useAddItemCanvas} from "../../hooks/add-item-canvas/useAddItemCanvas";
+import {useHandleCanvasMouseDown} from "../../hooks/mouse-down/useHandleCanvasMouseDown";
 
 const Canvas: React.FC = () => {
     const [items, setItems] = useState<CanvasItemType[]>([]);
@@ -28,61 +30,19 @@ const Canvas: React.FC = () => {
         zoom,
     });
 
-    useZoom({
-        canvasRef,
-        zoom,
-        setZoom,
-        canvasPosition,
-        setCanvasPosition,
-    });
-
+    useZoom({ canvasRef, zoom, setZoom, canvasPosition, setCanvasPosition });
     const { isFullscreen, toggleFullscreen } = useFullscreen(canvasRef);
 
-    const addItem = (type: string) => {
-        if (canvasRef.current) {
-            const { width, height } = canvasRef.current.getBoundingClientRect();
-            const newItem: CanvasItemType = {
-                id: Date.now(),
-                type,
-                content: type,
-                position: {
-                    x: (width / 2 - canvasPosition.x) / zoom,
-                    y: (height / 2 - canvasPosition.y) / zoom,
-                },
-                size: { width: 200, height: 100 },
-            };
-            setItems((prevItems) => [...prevItems, newItem]);
-            console.log("Item added:", newItem);
-        }
-    };
-
-    const handleCanvasMouseDown = (e: React.MouseEvent) => {
-        if (!isDraggingCanvas) {
-            setSelectedItem(null);
-        }
-        setIsDraggingCanvas(true);
-        startCanvasDrag(e);
-    };
-
-    const handleMouseUp = () => {
-        setIsDraggingCanvas(false);
-    };
-
-    const handleItemClick = (item: CanvasItemType) => {
-        setSelectedItem(item);
-        console.log("Item selected:", item);
-    };
+    const addItem = useAddItemCanvas({ canvasRef, canvasPosition, zoom, setItems });
+    const handleCanvasMouseDown = useHandleCanvasMouseDown({
+        isDraggingCanvas, setSelectedItem, setIsDraggingCanvas, startCanvasDrag
+    });
+    const handleItemClick = (item: CanvasItemType) => setSelectedItem(item);
 
     useEffect(() => {
-        document.addEventListener('mouseup', handleMouseUp);
-        return () => {
-            document.removeEventListener('mouseup', handleMouseUp);
-        };
+        document.addEventListener('mouseup', () => setIsDraggingCanvas(false));
+        return () => document.removeEventListener('mouseup', () => setIsDraggingCanvas(false));
     }, []);
-
-    useEffect(() => {
-        console.log("Current selectedItem:", selectedItem);
-    }, [selectedItem]);
 
     return (
         <div className={styles.canvasContainer} ref={canvasRef}>
@@ -116,7 +76,6 @@ const Canvas: React.FC = () => {
                         </div>
                     ))}
                 </div>
-
                 {selectedItem && <EditBar selectedItem={selectedItem} />}
             </div>
 
