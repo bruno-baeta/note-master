@@ -12,6 +12,8 @@
     "@types/react-dom": "^18.3.1",
     "idb": "^8.0.0",
     "react": "^18.3.1",
+    "react-color": "^2.19.3",
+    "react-colorful": "^5.6.1",
     "react-dom": "^18.3.1",
     "react-icons": "^5.3.0",
     "react-rnd": "^10.4.13",
@@ -46,6 +48,7 @@
     ]
   },
   "devDependencies": {
+    "@types/react-color": "^3.0.12",
     "@types/react-rnd": "^8.0.0"
   }
 }

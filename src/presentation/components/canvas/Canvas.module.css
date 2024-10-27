@@ -85,3 +85,25 @@
 .fullscreenButton:hover {
     background-color: #292D2E;
 }
+
+.saveButtonStandalone {
+    position: absolute;
+    bottom: 10px;
+    right: 20px;
+    min-width: 160px;
+    background-color: #1E2022;
+    color: white;
+    border: none;
+    margin-bottom: 10px;
+    cursor: pointer;
+    padding: 10px 25px;
+    border-radius: 14px;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+    transition: background 0.3s ease;
+}
+
+.saveButtonStandalone:hover {
+    background-color: #3A3D41;
+}
