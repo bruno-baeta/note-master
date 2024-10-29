@@ -21,9 +21,7 @@
 
 .itemContainer {
     position: absolute;
-    background-color: lightgray;
     cursor: move;
-    user-select: none;
 }
 
 .sideButtons {

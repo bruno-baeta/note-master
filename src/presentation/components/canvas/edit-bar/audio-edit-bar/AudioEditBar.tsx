@@ -1,7 +1,7 @@
 // components/edit-bar/audio-edit-bar/AudioEditBar.tsx
 import React, { useState } from 'react';
 import { FaPlay, FaPause, FaMicrophone, FaTrash, FaVolumeUp } from 'react-icons/fa';
-import { CanvasItemType } from "../../canvas/CanvasItemType";
+import { CanvasItemType } from "../../CanvasItemType";
 import styles from './AudioEditBar.module.css';
 
 interface AudioEditBarProps {

@@ -13,6 +13,6 @@ export interface Position {
 }
 
 export interface Size {
-    width: number;
-    height: number;
+    width: number | 'auto';
+    height: number | 'auto';
 }

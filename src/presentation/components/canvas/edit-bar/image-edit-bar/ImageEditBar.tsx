@@ -1,6 +1,6 @@
 // components/edit-bar/image-edit-bar/ImageEditBar.tsx
 import React, { useState } from 'react';
-import { CanvasItemType } from "../../canvas/CanvasItemType";
+import { CanvasItemType } from "../../CanvasItemType";
 import { HexColorPicker } from "react-colorful";
 import { FaTrash, FaSyncAlt, FaExpandAlt } from 'react-icons/fa';
 import styles from './ImageEditBar.module.css';

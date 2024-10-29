@@ -7,9 +7,9 @@ import { useDrag } from "../../hooks/drag/useDrag";
 import { useZoom } from "../../hooks/zoom/useZoom";
 import { useFullscreen } from "../../hooks/fullscreen/useFullscreen";
 import { FaExpand, FaCompress } from 'react-icons/fa';
-import EditBar from "../edit-bar/EditBar";
 import { useAddItemCanvas } from "../../hooks/add-item-canvas/useAddItemCanvas";
 import { useHandleCanvasMouseDown } from "../../hooks/mouse-down/useHandleCanvasMouseDown";
+import EditBar from "./edit-bar/EditBar";
 
 const Canvas: React.FC = () => {
     const [items, setItems] = useState<CanvasItemType[]>([]);

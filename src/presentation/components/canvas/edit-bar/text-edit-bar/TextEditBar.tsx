@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FaAlignLeft, FaAlignCenter, FaAlignRight } from 'react-icons/fa';
 import styles from './TextEditBar.module.css';
-import {CanvasItemType} from "../../canvas/CanvasItemType";
+import {CanvasItemType} from "../../CanvasItemType";
 import {HexColorPicker} from "react-colorful";
 
 interface TextEditBarProps {

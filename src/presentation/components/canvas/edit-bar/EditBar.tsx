@@ -1,6 +1,6 @@
 // components/edit-bar/EditBar.tsx
 import React from 'react';
-import { CanvasItemType } from "../canvas/CanvasItemType";
+import { CanvasItemType } from "../CanvasItemType";
 import TextEditBar from "./text-edit-bar/TextEditBar";
 import ImageEditBar from "./image-edit-bar/ImageEditBar";
 import AudioEditBar from "./audio-edit-bar/AudioEditBar";

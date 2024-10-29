@@ -21,7 +21,7 @@ export const useAddItemCanvas = ({ canvasRef, canvasPosition, zoom, setItems }: 
                     x: (width / 2 - canvasPosition.x) / zoom,
                     y: (height / 2 - canvasPosition.y) / zoom,
                 },
-                size: { width: 200, height: 100 },
+                size: { width: 'auto', height: 'auto' },
             };
             setItems((prevItems) => [...prevItems, newItem]);
         }

@@ -1,0 +1,15 @@
+/* AudioItem.module.css */
+.audioItem {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background-color: transparent;
+    border-radius: 50%;
+}
+
+.icon {
+    font-size: 24px;
+    color: #f0f0f0;
+}
