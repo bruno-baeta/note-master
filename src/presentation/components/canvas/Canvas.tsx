@@ -8,8 +8,8 @@ import { useZoom } from "../../hooks/zoom/useZoom";
 import { useFullscreen } from "../../hooks/fullscreen/useFullscreen";
 import { FaExpand, FaCompress } from 'react-icons/fa';
 import EditBar from "../edit-bar/EditBar";
-import {useAddItemCanvas} from "../../hooks/add-item-canvas/useAddItemCanvas";
-import {useHandleCanvasMouseDown} from "../../hooks/mouse-down/useHandleCanvasMouseDown";
+import { useAddItemCanvas } from "../../hooks/add-item-canvas/useAddItemCanvas";
+import { useHandleCanvasMouseDown } from "../../hooks/mouse-down/useHandleCanvasMouseDown";
 
 const Canvas: React.FC = () => {
     const [items, setItems] = useState<CanvasItemType[]>([]);
@@ -80,10 +80,9 @@ const Canvas: React.FC = () => {
             </div>
 
             <div className={styles.sideButtons}>
-                <button className={styles.sideButton} onClick={() => addItem('Texto')}>Adicionar Texto</button>
-                <button className={styles.sideButton} onClick={() => addItem('Post-it')}>Adicionar Post-it</button>
-                <button className={styles.sideButton} onClick={() => addItem('Imagem')}>Adicionar Imagem</button>
-                <button className={styles.sideButton} onClick={() => addItem('Código')}>Adicionar Código</button>
+                <button className={styles.sideButton} onClick={() => addItem('Texto')}>Texto</button>
+                <button className={styles.sideButton} onClick={() => addItem('Imagem')}>Imagem</button>
+                <button className={styles.sideButton} onClick={() => addItem('Audio')}>Áudio</button>
             </div>
 
             <button className={styles.fullscreenButton} onClick={toggleFullscreen}>
