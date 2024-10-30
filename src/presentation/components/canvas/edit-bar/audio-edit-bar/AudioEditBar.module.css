@@ -32,6 +32,10 @@
     color: #FFFFFF;
 }
 
+.recording {
+    color: #FF4C4C; /* Botão de gravação em vermelho */
+}
+
 .volumeControl {
     display: flex;
     align-items: center;
@@ -40,7 +44,7 @@
 
 .slider {
     width: 100px;
-    height: 10px; /* Largura aumentada */
+    height: 10px;
     -webkit-appearance: none;
     appearance: none;
     background: linear-gradient(to right, #4CAF50 50%, #3A3D41 50%);
@@ -67,4 +71,34 @@
     background: #FFFFFF;
     cursor: pointer;
     border: none;
+}
+
+.duration {
+    color: #FFFFFFB3;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    margin-left: 8px;
+}
+
+.recordingTime {
+    color: #FF4C4C; /* Tempo em vermelho durante a gravação */
+}
+
+.blinkingDot {
+    height: 8px;
+    width: 8px;
+    background-color: #FF4C4C;
+    border-radius: 50%;
+    margin-right: 4px;
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
 }
