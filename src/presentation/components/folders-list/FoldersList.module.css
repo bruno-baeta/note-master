@@ -1,16 +1,113 @@
-.folderContainer {
-    padding: 0 40px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
-    margin-top: 20px;
+:root {
+    --primary: #4285F4;
+    --secondary: #2B2E30;
+    --text-white: #D4D1CB;
+    --background: #181A1B;
+    --button-background: #181A1B;
+    --button-hover: #292D2E;
+
+    --font-primary: 'Poppins', sans-serif;
+
+    --font-size-large: 32px;
+    --font-size-medium-alt: 18px;
+    --font-size-medium: 14px;
+    --font-size-small: 12px;
+
+    --avatar-size: 40px;
+    --button-padding: 10px 20px;
 }
 
-.title {
-    padding: 20px 0 0 40px;
+body {
+    margin: 0;
+    font-family: var(--font-primary);
+    background-color: var(--background);
+    color: var(--text-white);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+.headerWrapper {
+    background-color: #1B1D1E;
+    width: 100%;
+    padding: 0 40px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+}
+
+h1 {
+    font-family: var(--font-primary);
+    font-weight: 700;
+    font-size: var(--font-size-large);
+    color: #ffffff;
+    margin-left: 20px;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+    width: 100%;
+    max-width: 1200px;
+    box-sizing: border-box;
+}
+
+h2 {
     font-family: 'Poppins', sans-serif;
     font-weight: 500;
     font-size: 16px;
     color: #D4D1CB;
-    margin-top: 44px;
+    margin: 0 0 20px 0;
+    text-align: left;
+    width: 100%;
+}
+
+.foldersContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+    justify-content: start;
+    width: 100%;
+    max-width: 1200px;
+    box-sizing: border-box;
+}
+
+.folderWrapper {
+    display: flex;
+    align-items: center;
+    background-color: #1E2022;
+    border-radius: 12px;
+    padding: 10px 16px;
+    width: 260px;
+    height: 42px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.folderWrapper:hover {
+    background-color: #292D2E;
+}
+
+.folderIcon {
+    width: 20px;
+    height: 20px;
+    margin-right: 12px;
+    fill: #bdbdbd;
+}
+
+.folderName {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 13px;
+    color: #D4D1CB;
+    flex-grow: 1;
+    margin-left: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
